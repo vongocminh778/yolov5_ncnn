@@ -11,6 +11,8 @@ pkg_check_modules(GST REQUIRED
                     gstreamer-app-1.0
                     )
 
+include_directories(${CMAKE_SOURCE_DIR}/seriallib)
+
 # OpenCV
 find_package(OpenCV REQUIRED)
 message(STATUS "OpenCV Libs: \n${OpenCV_LIBS}\n")
@@ -32,7 +34,18 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}
 
 include_directories(${INCLUDE_DIRS} ${GST_INCLUDE_DIRS})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
-# add_executable(${PROJECT_NAME} yolov5.cpp)
-add_executable(${PROJECT_NAME} main.cpp yoloV5.cpp)
+
+add_executable(${PROJECT_NAME} main.cpp yoloV5.cpp ${CMAKE_SOURCE_DIR}/seriallib/serialib.cpp)
 
 target_link_libraries(${PROJECT_NAME} ncnn ${OpenCV_LIBS} ${GST_LIBRARIES})
+
+# cmake_minimum_required(VERSION 3.10)
+# project(UART_Serial)
+
+# set(CMAKE_C_STANDARD 99)
+
+# include_directories(${CMAKE_SOURCE_DIR}/seriallib)
+
+# add_executable(UART_Serial PC2arduino.cpp ${CMAKE_SOURCE_DIR}/seriallib/serialib.cpp)
+
+# target_link_libraries(UART_Serial PRIVATE serialport)
